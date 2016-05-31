@@ -1,0 +1,22 @@
+package hust.namtran.FlowControls;
+
+public class PrintPattern {
+	/*
+	 * print a square triangle
+	 */
+	public static void main(String[] args) {
+		int size = 8;
+		for (int row = 1; row <= size; row++) {
+			for (int col = 1; col <= row; col++) {
+				System.out.print("#");
+				if (col != row)
+					System.out.print(" ");
+			}
+			System.out.println();
+		}
+	}
+
+	public static void main(Integer[] args) {
+System.err.println("aa");
+	}
+}

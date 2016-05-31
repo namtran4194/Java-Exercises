@@ -1,0 +1,22 @@
+package hust.namtran.FlowControls;
+
+public class TimeTable {
+
+	public static void main(String[] args) {
+		int size = 11;
+		for (int row = 1; row <= size; row++) {
+			if (row == 1) {
+				System.out.print("* |");
+				for (int col = 1; col <= 9; col++) {
+					System.out.print("  " + col);
+				}
+				System.out.println();
+			} else if (row == 2) {
+				System.out.println("-------------------------------");
+			} else {
+				System.out.print(row - 2 + " |");
+			}
+		}
+	}
+
+}
