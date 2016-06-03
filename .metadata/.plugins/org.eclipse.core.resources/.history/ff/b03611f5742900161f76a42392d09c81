@@ -1,0 +1,33 @@
+package hust.namtran.SortingandSearching;
+
+public class Sorting {
+
+	public static void main(String[] args) {
+		int[] array = { 9, 6, 4, 1, 5 };
+		bubbleSort(array);
+		for (int i = 0; i < array.length; i++)
+			System.out.print(array[i] + " ");
+	}
+
+	private static void bubbleSort(int[] array) {
+		int size = array.length;
+		boolean swapped;
+		do {
+			swapped = false;
+			for (int i = 1; i < size; i++) {
+				if (array[i - 1] > array[i]) {
+					swap(array[i - 1], array[i]);
+					swapped = true;
+					size--;
+				}
+			}
+		} while (swapped);
+	}
+
+	private static void swap(int i, int j) {
+		int temp = i;
+		i = j;
+		j = temp;
+	}
+
+}

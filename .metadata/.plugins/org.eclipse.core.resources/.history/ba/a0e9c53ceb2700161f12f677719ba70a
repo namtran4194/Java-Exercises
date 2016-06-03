@@ -1,0 +1,9 @@
+package hust.namtran.Array;
+
+public class Hex2Bin {
+
+	public static void main(String[] args) {
+
+	}
+
+}

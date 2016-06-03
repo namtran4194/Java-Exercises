@@ -1,0 +1,23 @@
+package hust.namtran.StringandChar;
+
+import java.util.Scanner;
+
+public class Hex2Dec {
+	/*
+	 * convert an input hex string into its equivalent decimal number
+	 */
+	public static void main(String[] args) {
+		String hexStr;
+		int decimal = 0;
+		char hexChar;
+		int order;
+		
+		System.out.print("Enter a Hexadecimal string: ");
+		Scanner in = new Scanner(System.in);
+		hexStr = in.next();
+		
+		
+		in.close();
+	}
+
+}

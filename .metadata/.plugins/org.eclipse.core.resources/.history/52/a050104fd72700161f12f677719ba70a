@@ -1,0 +1,13 @@
+package hust.namtran.StringandChar;
+
+public class Hex2Dec {
+	/*
+	 * convert an input hex string into its equivalent decimal number
+	 */
+	public static void main(String[] args) {
+		String hexStr;
+		int decimal;
+		char hexChar;
+	}
+
+}

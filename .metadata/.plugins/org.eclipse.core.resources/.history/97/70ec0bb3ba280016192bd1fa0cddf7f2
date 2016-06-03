@@ -1,0 +1,41 @@
+package hust.namtran.Array;
+
+import java.util.Scanner;
+
+public class GradesStatistics {
+	public static int[] grades;
+
+	public static void main(String[] args) {
+		readGrades();
+	}
+
+	private static void readGrades() {
+		int grade, numberOfStudents, i = 0;
+		Scanner in = new Scanner(System.in);
+		System.out.print("Enter the number of students: ");
+		numberOfStudents = in.nextInt();
+		while (numberOfStudents > 0) {
+			System.out.print("Enter the grade for student " + (i + 1) + ": ");
+			grade = in.nextInt();
+			if (grade >= 0 && grade <= 100) {
+				grades[i] = grade;
+				numberOfStudents--;
+				i++;
+			} else {
+				System.out.println("error: invalid grade");
+			}
+		}
+	}
+
+	private static void printArray(int[] array) {
+		System.out.print("{");
+		for (int i = 0; i < array.length; i++) {
+			System.out.print(array[i]);
+			if (i != array.length) {
+				System.out.print(",");
+			}
+		}
+		System.out.print("}");
+	}
+
+}

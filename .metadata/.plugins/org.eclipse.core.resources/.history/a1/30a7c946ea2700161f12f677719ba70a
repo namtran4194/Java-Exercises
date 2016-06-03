@@ -1,0 +1,34 @@
+package hust.namtran.Array;
+
+import java.util.Scanner;
+
+public class GradesAverage {
+
+	public static void main(String[] args) {
+		int numberOfStudent;
+		int grades;
+		int sum = 0;
+		double average;
+		int i = 1;
+
+		Scanner in = new Scanner(System.in);
+		System.out.print("Enter the number of students: ");
+		numberOfStudent = in.nextInt();
+		while (numberOfStudent > 0) {
+			System.out.print("Enter the grade for student " + i);
+			grades = in.nextInt();
+			if (grades >= 0 && grades <= 100) {
+				sum += grades;
+				numberOfStudent--;
+				i++;
+			} else {
+				System.out.println("Invalid grade, try again...");
+			}
+		}
+
+		// display
+		System.out.println("the average is: " + average);
+		in.close();
+	}
+
+}

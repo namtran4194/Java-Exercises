@@ -1,0 +1,13 @@
+package hust.namtran.SortingandSearching;
+
+public class Searching {
+
+	public static void main(String[] args) {
+		
+	}
+	
+	private static int linearSearch(int[] array, int key) {
+		
+	}
+
+}

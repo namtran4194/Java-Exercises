@@ -1,0 +1,32 @@
+package hust.namtran.StringandChar;
+
+import java.util.Scanner;
+
+public class Bin2Dec {
+
+	public static void main(String[] args) {
+		String binary;
+		int decimal = 0;
+		int order;
+		char c;
+
+		System.out.print("Enter a Binary string: ");
+		Scanner in = new Scanner(System.in);
+		binary = in.next();
+
+		for (int i = 0; i < binary.length(); i++) {
+			order = binary.length() - 1 - i;
+			c = binary.charAt(i);
+			if (c == '1') {
+				decimal += (int) Math.pow(2, order);
+			} else if (c != '0') {
+				System.out.println("error: invalid binary string \"" + binary + "\"");
+				System.exit(1);
+			}
+			else {
+				// do nothing
+			}
+		}
+	}
+
+}

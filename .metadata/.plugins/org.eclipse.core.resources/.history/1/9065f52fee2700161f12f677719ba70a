@@ -1,0 +1,17 @@
+package hust.namtran.Method;
+
+public class OddTest {
+
+	public static void main(String[] args) {
+
+	}
+
+	public boolean isOdd(int number) {
+		boolean result = false;
+		if (number % 2 == 0) {
+			result = true;
+		}
+		return result;
+	}
+
+}

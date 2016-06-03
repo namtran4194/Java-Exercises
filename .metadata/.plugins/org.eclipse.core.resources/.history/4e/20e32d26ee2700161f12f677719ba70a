@@ -1,0 +1,9 @@
+package hust.namtran.Method;
+
+public class OddTest {
+
+	public static void main(String[] args) {
+		
+	}
+
+}

@@ -1,0 +1,16 @@
+package hust.namtran.StringandChar;
+
+import java.util.Scanner;
+
+public class ReverseString {
+
+	public static void main(String[] args) {
+		String input;
+		Scanner in = new Scanner(System.in);
+		System.out.print("Enter a string: ");
+		input = in.next();
+		// Display
+		System.out.println("The reverse of the String " + input + " is ");
+	}
+
+}

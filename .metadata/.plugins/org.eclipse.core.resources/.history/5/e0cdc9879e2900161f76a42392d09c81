@@ -1,0 +1,9 @@
+package hust.namtran.Algorithms;
+
+public class PrimeList {
+
+	public static void main(String[] args) {
+		
+	}
+
+}

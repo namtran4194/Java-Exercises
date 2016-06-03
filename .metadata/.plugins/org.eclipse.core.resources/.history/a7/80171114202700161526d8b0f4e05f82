@@ -1,0 +1,13 @@
+package hust.namtran.StringandChar;
+
+import java.util.Scanner;
+
+public class ReverseString {
+
+	public static void main(String[] args) {
+		String input;
+		Scanner in = new Scanner(System.in);
+		input = in.next();
+	}
+
+}
