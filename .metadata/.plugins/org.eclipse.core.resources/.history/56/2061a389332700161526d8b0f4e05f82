@@ -1,9 +1,0 @@
-package hust.namtran.StringandChar;
-
-public class Bin2Dec {
-
-	public static void main(String[] args) {
-		
-	}
-
-}

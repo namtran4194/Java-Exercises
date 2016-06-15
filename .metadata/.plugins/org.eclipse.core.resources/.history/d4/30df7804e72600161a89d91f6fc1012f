@@ -1,9 +1,0 @@
-package hust.namtran.flowcontrols;
-
-public class CozaLozaWoza {
-
-	public static void main(String[] args) {
-		
-	}
-
-}

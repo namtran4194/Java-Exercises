@@ -1,0 +1,10 @@
+package exercisesonComposition;
+
+public class TestPoint {
+
+	public static void main(String[] args) {
+		MyPoint p1 = new MyPoint();
+		System.out.println(p1);
+	}
+
+}

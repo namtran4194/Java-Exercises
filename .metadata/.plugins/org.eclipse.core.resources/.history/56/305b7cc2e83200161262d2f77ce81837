@@ -1,0 +1,5 @@
+package exercisesonComposition;
+
+public class TestAuthor {
+	Author namTX = new Author("Tran Nam", "nam3vj@gmail.com", 'm');
+}

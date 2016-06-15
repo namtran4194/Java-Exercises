@@ -1,9 +1,0 @@
-package hust.namtran.Array;
-
-public class GradesAverage {
-
-	public static void main(String[] args) {
-		
-	}
-
-}
