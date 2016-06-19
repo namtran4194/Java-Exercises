@@ -1,0 +1,9 @@
+package enumeration;
+
+public class EnumWithAbstractMethod {
+
+	public static void main(String[] args) {
+		
+	}
+
+}

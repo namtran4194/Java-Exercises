@@ -1,0 +1,39 @@
+package enumeration;
+
+public class CardSuit {
+	enum Suit {
+		SPADE, DIAMOND, CLUB, HEART
+	}
+
+	enum Rank {
+		ACE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING
+	}
+
+	class Card { // A Card
+		private Suit suit;
+		private Rank rank;
+
+		public Card(Suit suit, Rank rank) {
+			this.suit = suit;
+			this.rank = rank;
+		}
+
+		public Suit getSuit() {
+			return suit;
+		}
+
+		public Rank getRank() {
+			return rank;
+		}
+
+		@Override
+		public String toString() {
+			return "This card is " + rank + " of " + suit;
+		}
+	}
+
+	public static void main(String[] args) {
+
+	}
+
+}

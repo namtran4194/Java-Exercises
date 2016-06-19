@@ -10,13 +10,15 @@
 <fullyQualifiedTypeName name="java.lang.FunctionalInterface"/>
 <fullyQualifiedTypeName name="hust.namtran.Algorithms.GreatestCommonDivisor"/>
 <fullyQualifiedTypeName name="java.util.Scanner"/>
-<fullyQualifiedTypeName name="java.lang.System"/>
 <fullyQualifiedTypeName name="ExercisesonClasses.Circle"/>
 <fullyQualifiedTypeName name="exercisesonClasses.Account"/>
 <fullyQualifiedTypeName name="exercisesonClasses.Time"/>
-<fullyQualifiedTypeName name="java.lang.String"/>
 <fullyQualifiedTypeName name="exercisesonComposition.Author"/>
 <fullyQualifiedTypeName name="exercisesonComposition.Book"/>
 <fullyQualifiedTypeName name="java.lang.Math"/>
 <fullyQualifiedTypeName name="exercisesonComposition.MyPoint"/>
+<fullyQualifiedTypeName name="java.lang.String"/>
+<fullyQualifiedTypeName name="java.lang.StringBuffer"/>
+<fullyQualifiedTypeName name="java.lang.System"/>
+<fullyQualifiedTypeName name="java.lang.StringBuilder"/>
 </qualifiedTypeNameHistroy>

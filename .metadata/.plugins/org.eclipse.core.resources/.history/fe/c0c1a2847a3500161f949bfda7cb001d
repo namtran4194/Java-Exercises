@@ -1,0 +1,9 @@
+package string;
+
+public class StringsBenchMark {
+
+	public static void main(String[] args) {
+		
+	}
+
+}
