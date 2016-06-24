@@ -1,0 +1,8 @@
+Bạn có thể tìm trên wiki với từ khoá "Sudoku" để biết luật chơi.
+Sudoku là 1 trò chơi trí tuệ 1 người chơi. "Các đối tượng được lấp đầy bằng các số từ 1 - 9,
+nghĩa là mỗi cột, mỗi hàng hay mỗi ma trận 3x3 (còn được gọi là "các hộp", "các khối",
+"các vùng", hay "các hình vuông con") chứa tất cả các số từ 1 - 9.
+Trò chơi được cài đặt sẵn 1 phần đã hoàn thành, trong đó để hoàn thành nốt phần còn lại thì chỉ có duy nhất 1 cách."
+Để hoàn thành trò chơi, bạn cần điền các số còn thiếu vào ô trống (màu vàng), nếu điền đúng,
+màu của ô đó sẽ thành màu xanh, nếu sai sẽ thành màu đỏ và bạn có thể điền lại cho
+đến khi nào đúng thì thôi. Khi tất cả các ô trống được điền đúng, trò chơi sẽ kết thúc.

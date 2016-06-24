@@ -1,9 +1,0 @@
-package exercisesonComposition;
-
-public class TestAuthorBook {
-
-	public static void main(String[] args) {
-		Author namTX = new Author("Tran Nam", "nam3vj@gmail.com", 'm');
-		System.out.println(namTX);
-	}
-}

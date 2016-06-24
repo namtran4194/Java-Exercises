@@ -10,3 +10,30 @@
 1466397078495	Copy file
 1466397164033	Delete element
 1466402378782	Delete element
+1466501205657	Copy file
+1466501446378	Delete element
+1466501549787	Copy file
+1466501557180	Delete element
+1466501738792	Rename resource 'Construction'
+1466502214967	Rename resource 'sudoku_icon.png'
+1466518731592	Rename local variable 'level'
+1466553183977	Rename local variable 'mlevel'
+1466598854903	Rename method 'construction'
+1466598863939	Rename method 'about'
+1466598879939	Rename method 'getAbout'
+1466598916009	Rename method 'addMenu'
+1466599281181	Rename method 'shuffle'
+1466638001205	Rename local variable 'offset'
+1466638133009	Rename method 'mediumPuzzle'
+1466640244180	Rename local variable 'i'
+1466640277950	Rename local variable 'max_cell'
+1466640447236	Rename field 'LEVEL'
+1466641545742	Rename local variable 'row'
+1466642202599	Rename local variable 'start'
+1466647177093	Rename field 'NEW_GAME'
+1466673237062	Rename local variable 'status'
+1466675484193	Rename local variable 'showTime'
+1466691979383	Rename field 'newGame'
+1466693033795	Rename field 'hasNewGame'
+1466724913589	Rename field 'currentCells'
+1466729344353	Rename local variable 'maxCell'
