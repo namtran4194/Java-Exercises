@@ -1,9 +1,0 @@
-package enumeration;
-
-public class TrafficLightTest {
-
-	public static void main(String[] args) {
-		
-	}
-
-}

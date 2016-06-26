@@ -90,7 +90,7 @@ public class Sudoku extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 
-		setIconImage(getToolkit().getImage("sudoku_icon"));
+		setIconImage(getToolkit().getImage("resources/sudoku.png"));
 		setTitle("Sudoku");
 		setVisible(true);
 	}

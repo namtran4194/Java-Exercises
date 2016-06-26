@@ -5,10 +5,17 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -37,11 +44,15 @@ public class MineSweeper extends JFrame {
 	public static final Color FGCOLOR_REVEALED = Color.LIGHT_GRAY; // number of mines
 	public static final Font FONT_NUMBERS = new Font("Monospaced", Font.BOLD, 20);
 
+	List<Point> listCells = new ArrayList<>();
+	int sizeOf;
 	// Buttons for user interaction
 	JButton[][] btnCells = new JButton[ROWS][COLS];
 
 	// Number of mines in this game. Can vary to control the difficulty level.
 	int numMines;
+	// Image
+	Image minesIcon, flagsIcon;
 
 	// Location of mines. True if mine is present on this cell.
 	boolean[][] mines = new boolean[ROWS][COLS];
@@ -56,6 +67,13 @@ public class MineSweeper extends JFrame {
 		Container container = this.getContentPane();
 		container.setLayout(new GridLayout(ROWS, COLS, 2, 2));
 
+		// get icon
+		try {
+			minesIcon = ImageIO.read((new File("resources/mines.png")));
+			flagsIcon = ImageIO.read((new File("resources/flags.png")));
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		}
 		CellMouseListener listener = new CellMouseListener();
 		// Construct 10x10 JButtons and add to the content-pane
 		for (int row = 0; row < ROWS; row++) {
@@ -67,8 +85,9 @@ public class MineSweeper extends JFrame {
 		}
 		container.setPreferredSize(new Dimension(CANVAS_WIDTH, CANVAS_HEIGH));
 		pack();
-		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setIconImage(getToolkit().getImage("resources/minesweeper.png"));
+		setLocationRelativeTo(null);
 		setTitle("Minesweeper");
 		setVisible(true);
 		// Initialize for a new game
@@ -85,6 +104,7 @@ public class MineSweeper extends JFrame {
 				btnCells[row][col].setForeground(FGCOLOR_NOT_REVEALED);
 				btnCells[row][col].setBackground(BGCOLOR_NOT_REVEALED);
 				btnCells[row][col].setFont(FONT_NUMBERS);
+				btnCells[row][col].setIcon(null); // clear all the flags icon
 				btnCells[row][col].setText(""); // display blank
 				mines[row][col] = false; // clear all the mines
 				flags[row][col] = false; // clear all the flags
@@ -128,16 +148,31 @@ public class MineSweeper extends JFrame {
 			for (int j = -1; j <= 1; j++) {
 				rowSelected = row + i;
 				colSelected = col + j;
-				btnCells[rowSelected][colSelected].setBackground(BGCOLOR_REVEALED);
-				btnCells[rowSelected][colSelected].setForeground(FGCOLOR_REVEALED);
-				btnCells[rowSelected][colSelected].setEnabled(false);
-				if (rowSelected >= 0 && rowSelected <= ROWS && colSelected >= 0 && colSelected <= COLS)
+				if (rowSelected != colSelected && rowSelected >= 0 && rowSelected <= ROWS && colSelected >= 0
+						&& colSelected <= COLS && btnCells[rowSelected][colSelected].isEnabled())
 					if (minesNear(rowSelected, colSelected) == 0) {
-						openCells(rowSelected, colSelected);
+						listCells.add(new Point(rowSelected, colSelected));
 					} else {
+						btnCells[rowSelected][colSelected].setBackground(BGCOLOR_REVEALED);
+						btnCells[rowSelected][colSelected].setForeground(FGCOLOR_REVEALED);
+						btnCells[rowSelected][colSelected].setEnabled(false);
 						btnCells[rowSelected][colSelected].setText(minesNear(rowSelected, colSelected) + "");
 					}
 			}
+		}
+		openCellsWaiting();
+	}
+
+	public void openCellsWaiting() {
+		int rowSelected, colSelected;
+		Point point;
+		sizeOf = listCells.size();
+		if (sizeOf >= 0) {
+			point = listCells.get(0);
+			listCells.remove(0);
+			rowSelected = point.getRowSelected();
+			colSelected = point.getColSelected();
+			openCells(rowSelected, colSelected);
 		}
 	}
 
@@ -176,6 +211,7 @@ public class MineSweeper extends JFrame {
 			if (e.getButton() == MouseEvent.BUTTON1 && !flags[rowSelected][colSelected]) {// Left-button clicked
 				if (mines[rowSelected][colSelected]) {
 					btnCells[rowSelected][colSelected].setBackground(FGCOLOR_NOT_REVEALED);
+					btnCells[rowSelected][colSelected].setIcon(new ImageIcon(minesIcon));
 					JOptionPane.showMessageDialog(MineSweeper.this, "Game over!", "Notification",
 							JOptionPane.INFORMATION_MESSAGE);
 					initGame();
@@ -193,13 +229,13 @@ public class MineSweeper extends JFrame {
 				if (flags[rowSelected][colSelected]) {
 					flags[rowSelected][colSelected] = false;
 					btnCells[rowSelected][colSelected].setBackground(BGCOLOR_NOT_REVEALED);
-					btnCells[rowSelected][colSelected].setText("");
+					btnCells[rowSelected][colSelected].setIcon(null);
 					btnCells[rowSelected][colSelected].setFocusable(false);
 				} else {
 					flags[rowSelected][colSelected] = true;
 					btnCells[rowSelected][colSelected].setForeground(FGCOLOR_NOT_REVEALED);
 					btnCells[rowSelected][colSelected].setBackground(BGCOLOR_NOT_REVEALED);
-					btnCells[rowSelected][colSelected].setText("<");
+					btnCells[rowSelected][colSelected].setIcon(new ImageIcon(flagsIcon));
 					btnCells[rowSelected][colSelected].setFocusable(false);
 				}
 			}

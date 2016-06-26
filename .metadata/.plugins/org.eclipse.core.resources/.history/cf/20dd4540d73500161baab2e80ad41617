@@ -1,9 +1,0 @@
-package enumeration;
-
-public class CardSuit {
-
-	public static void main(String[] args) {
-		
-	}
-
-}
