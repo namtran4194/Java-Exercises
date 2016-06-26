@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename method &apos;graphics.MineSweeper.openCellsNearBlank(...)&apos; to &apos;openCells&apos;&#x0D;&#x0A;- Original project: &apos;OOP&apos;&#x0D;&#x0A;- Original element: &apos;graphics.MineSweeper.openCellsNearBlank(...)&apos;&#x0D;&#x0A;- Renamed element: &apos;graphics.MineSweeper.openCells(...)&apos;&#x0D;&#x0A;- Update references to refactored element" delegate="false" deprecate="true" description="Rename method &apos;openCellsNearBlank&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.method" input="/src&lt;graphics{MineSweeper.java[MineSweeper~openCellsNearBlank~I~I" name="openCells" references="true" stamp="1466901006529" version="1.0"/>
+</session>

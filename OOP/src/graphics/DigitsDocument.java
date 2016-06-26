@@ -5,8 +5,9 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 
 /**
- * Chỉ nhập số thập phân trong JTextField
+ * Chỉ nhập số thập phân trong JTextField.
  * Sử dụng JTextField.setDocument(new DigitsDocument());
+ * dùng trong class Sudoku.
  * */
 public class DigitsDocument extends PlainDocument {
 	private static final long serialVersionUID = 1L;

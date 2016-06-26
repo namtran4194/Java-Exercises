@@ -12,9 +12,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Random;
 
 import javax.swing.JFrame;
@@ -35,15 +32,15 @@ import javax.swing.Timer;
 public class Sudoku extends JFrame {
 	private static final long serialVersionUID = 1L;
 
-	public static String Level = "Easy"; // Current level
-	public static String Easy = "Easy";
-	public static String Medium = "Medium";
-	public static String Difficult = "Difficult";
-	public static boolean newGame = true;
+	public static String Level = "Beginner"; // Current level
+	public static boolean newGame = true; // create a new game
+	public int numberOfCellsRemaining; // show in status bar
 
-	public static String status = "Number of cells remaining: ";
-	public int numberOfCellsRemaining;
-	public int currentMaxCells;
+	// Name-constants for the game properties (levels and status bar)
+	public static final String STATUS = "Number of cells remaining: ";
+	public static final String BEGINNER = "Beginner";
+	public static final String INTERMEDIATE = "Intermediate";
+	public static final String EXPERT = "Expert";
 
 	public static final int GRID_SIZE = 9; // Size of the board
 	public static final int SUBGRID_SIZE = 3; // Size of the sub-grid
@@ -115,7 +112,7 @@ public class Sudoku extends JFrame {
 		easy = new JMenuItem();
 		medium = new JMenuItem();
 		difficult = new JMenuItem();
-		changeLevel();
+		contextLevelsMenu();
 		about = new JMenuItem("About");
 		construction = new JMenuItem("Construction");
 
@@ -188,42 +185,43 @@ public class Sudoku extends JFrame {
 				tfCells[row][col].setFont(FONT_NUMBERS);
 			}
 		}
-		currentMaxCells = numberOfCellsRemaining;
 		container.add(puzzlePanel, BorderLayout.CENTER);
 	}
 
 	public void shufflePuzzle() {
-		// create a reference list
-		List<Integer> ref = new ArrayList<>();
-		for (int i = 1; i < 10; i++) {
-			ref.add(i);
-		}
-
-		int offsetRow, offsetCol;
-		int i;
-
-		for (int row = 0; row < GRID_SIZE / 3; row++) {
-			for (int col = 0; col < GRID_SIZE / 3; col++) {
-				Collections.shuffle(ref);
-				offsetRow = 2;
-				i = 0;
-				while (offsetRow >= 0) {
-					offsetCol = 2;
-					while (offsetCol >= 0) {
-						puzzle[row * 3 + offsetRow][col * 3 + offsetCol] = ref.get(i);
-						offsetCol--;
-						i++;
-					}
-					offsetRow--;
+		Random r = new Random();
+		int firstVal = r.nextInt(8);
+		int x = firstVal, v = 1;
+		for (int row = 0; row < GRID_SIZE; row++) {
+			for (int col = 0; col < GRID_SIZE; col++) {
+				if ((x + col + v) <= 9) {
+					puzzle[row][col] = x + col + v;
+				} else {
+					puzzle[row][col] = x + col + v - 9;
 				}
+				if (puzzle[row][col] == 10) {
+					puzzle[row][col] = 1;
+				}
+			}
+			x += 3;
+			if (x >= 9) {
+				x -= 9;
+			}
+			if (row == 2) {
+				v = 2;
+				x = firstVal;
+			}
+			if (row == 5) {
+				v = 3;
+				x = firstVal;
 			}
 		}
 	}
 
 	public void shuffleMasks() {
-		currentMaxCells = 0;
 		Random random = new Random();
-		int randomRow, randomCol;
+		int randomRow = -1, randomCol = -1;
+		// reset masks
 		for (int row = 0; row < GRID_SIZE; row++) {
 			for (int col = 0; col < GRID_SIZE; col++) {
 				if (masks[row][col]) {
@@ -231,23 +229,25 @@ public class Sudoku extends JFrame {
 				}
 			}
 		}
+
+		// Set the number of empty cells
 		boolean temp;
 		int cellsLevel = 0;
-		// create masks
 		switch (Level) {
-		case "Easy":
+		case "Beginner":
 			cellsLevel = 4;
 			break;
-		case "Medium":
+		case "Intermediate":
 			cellsLevel = 8;
 			break;
-		case "Difficult":
+		case "Expert":
 			cellsLevel = 16;
 			break;
 		default:
 			break;
 		}
 
+		// set the empty cells' location
 		for (int i = 0; i < cellsLevel; i++) {
 			randomRow = random.nextInt(GRID_SIZE);
 			randomCol = random.nextInt(GRID_SIZE);
@@ -258,6 +258,7 @@ public class Sudoku extends JFrame {
 			}
 		}
 
+		// shuffle the empty cells' location
 		for (int row = 0; row < GRID_SIZE; row++) {
 			for (int col = 0; col < GRID_SIZE; col++) {
 				randomRow = random.nextInt(GRID_SIZE);
@@ -269,20 +270,22 @@ public class Sudoku extends JFrame {
 		}
 	}
 
+	// Status bar, to show number of cells remaining, timer
 	JLabel message;
+	Timer timer;
 
 	public void statusBar(Container container) {
 		JPanel statusBar = new JPanel(new GridLayout(0, 2));
-		message = new JLabel(status + numberOfCellsRemaining);
+		message = new JLabel(STATUS + numberOfCellsRemaining);
 		JLabel showTime = new JLabel();
-		Timer timer = new Timer(1000, new ActionListener() {
+		timer = new Timer(1000, new ActionListener() {
 			int time = 0;
 			String mesTimer = "Time: ";
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				time++;
-				showTime.setText(mesTimer + time);
+				showTime.setText(mesTimer + time + "s");
 			}
 		});
 		timer.setRepeats(true);
@@ -294,23 +297,24 @@ public class Sudoku extends JFrame {
 		container.add(statusBar, BorderLayout.SOUTH);
 	}
 
+	// reset game when change game level
 	public void switchLevel(String level) {
 		newGame = true;
 		switch (level) {
-		case "Easy":
-			Level = "Easy";
+		case "Beginner":
+			Level = "Beginner";
 			// this.dispose();
 			// new Sudoku();
 			refresh();
 			break;
-		case "Medium":
-			Level = "Medium";
+		case "Intermediate":
+			Level = "Intermediate";
 			// this.dispose();
 			// new Sudoku();
 			refresh();
 			break;
-		case "Difficult":
-			Level = "Difficult";
+		case "Expert":
+			Level = "Expert";
 			// this.dispose();
 			// new Sudoku();
 			refresh();
@@ -320,25 +324,27 @@ public class Sudoku extends JFrame {
 		}
 	}
 
-	public void changeLevel() {
-		easy.setText("Easy");
-		medium.setText("Medium");
-		difficult.setText("Difficult");
+	// change level in Menu when choose level
+	public void contextLevelsMenu() {
+		easy.setText("Beginner");
+		medium.setText("Intermediate");
+		difficult.setText("Expert");
 		switch (Level) {
-		case "Easy":
-			easy.setText("•Easy");
+		case "Beginner":
+			easy.setText("• Beginner");
 			break;
-		case "Medium":
-			medium.setText("•Medium");
+		case "Intermediate":
+			medium.setText("• Intermediate");
 			break;
-		case "Difficult":
-			difficult.setText("•Difficult");
+		case "Expert":
+			difficult.setText("• Expert");
 			break;
 		default:
 			break;
 		}
 	}
 
+	// get construction in file to string
 	public String getConstruction() {
 		String line;
 		String data = "";
@@ -352,20 +358,23 @@ public class Sudoku extends JFrame {
 		return data;
 	}
 
+	// show about game
 	public void showAbout() {
 		String msg = "Chào các bạn, cảm ơn đã dùng thử ứng dụng của mình.\nỨng dụng này mình làm trong quá trình rảnh rỗi, để luyện tập cũng như nâng cao trình độ code của mình.\nNếu có góp ý hay thắc mắc gì liên hệ với mình qua email hoặc fb nhé.\nEmail: namtran4194@gmail.com\nFacebook: fb.com/namtran4194";
 		JOptionPane.showMessageDialog(this, msg, "About Sudoku", JOptionPane.INFORMATION_MESSAGE);
 	}
 
+	// refresh game component when change game level, select new game, reset game
 	public void refresh() {
 		container.removeAll();
 		getPuzzle(container);
 		statusBar(container);
-		changeLevel();
+		contextLevelsMenu();
 		container.validate();
 		container.repaint();
 	}
 
+	// handle click menu
 	private class MenuListener implements ActionListener {
 
 		@Override
@@ -387,14 +396,14 @@ public class Sudoku extends JFrame {
 			case "Exit":
 				System.exit(1);
 				break;
-			case "Easy":
-				switchLevel("Easy");
+			case "Beginner":
+				switchLevel("Beginner");
 				break;
-			case "Medium":
-				switchLevel("Medium");
+			case "Intermediate":
+				switchLevel("Intermediate");
 				break;
-			case "Difficult":
-				switchLevel("Difficult");
+			case "Expert":
+				switchLevel("Expert");
 				break;
 			case "Construction":
 				JOptionPane.showMessageDialog(Sudoku.this, getConstruction(), "How to play",
@@ -410,6 +419,7 @@ public class Sudoku extends JFrame {
 
 	}
 
+	// handle typing keyboard
 	private class InputListener extends KeyAdapter {
 
 		@Override
@@ -448,7 +458,7 @@ public class Sudoku extends JFrame {
 			}
 
 			if (cellsChange) {
-				message.setText(status + numberOfCellsRemaining);
+				message.setText(STATUS + numberOfCellsRemaining);
 			}
 
 			boolean solved = true;
@@ -460,7 +470,9 @@ public class Sudoku extends JFrame {
 					}
 				}
 			}
+
 			if (solved) {
+				timer.stop();
 				JOptionPane.showMessageDialog(Sudoku.this, "Congratulation!", "Notification",
 						JOptionPane.INFORMATION_MESSAGE);
 				// Sudoku.this.dispose();
@@ -471,7 +483,9 @@ public class Sudoku extends JFrame {
 		}
 	}
 
-	// Run game
+	/**
+	 * Launch the application.
+	 */
 	public static void main(String[] args) {
 		new Sudoku();
 	}
