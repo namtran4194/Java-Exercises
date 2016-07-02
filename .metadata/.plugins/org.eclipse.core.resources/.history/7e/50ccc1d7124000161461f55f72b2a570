@@ -1,0 +1,38 @@
+package graphics;
+
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+
+import javax.swing.JDialog;
+
+public class TopPlayer extends JDialog {
+	private static final long serialVersionUID = 1L;
+	
+	public static final int WIDTH = 100;
+	public static final int HEIGH = 30;
+	public static final int CANVAS_WIDTH = WIDTH;
+	public static final int CANVAS_HEIGH = HEIGH * 10; 
+
+	/**
+	 * Create the dialog.
+	 */
+	public TopPlayer() {
+		Container container = getContentPane();
+		container.setLayout(new GridLayout(10, 1));
+		
+		setPreferredSize(new Dimension(CANVAS_WIDTH, CANVAS_HEIGH));
+		pack();
+		setLocationRelativeTo(null);
+		setTitle("High Score");
+		setVisible(true);
+	}
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+
+	}
+
+}

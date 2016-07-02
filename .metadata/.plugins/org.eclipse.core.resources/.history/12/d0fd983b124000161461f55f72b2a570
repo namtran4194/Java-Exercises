@@ -1,0 +1,23 @@
+package graphics;
+
+import javax.swing.JDialog;
+
+public class TopPlayer extends JDialog {
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * Create the dialog.
+	 */
+	public TopPlayer() {
+		
+
+	}
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+
+	}
+
+}

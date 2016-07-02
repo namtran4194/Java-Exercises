@@ -1,0 +1,21 @@
+package adapters;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class HighScore {
+	private List<Player> listTopPlayer = new ArrayList<>();
+
+	public HighScore(List<Player> listTopPlayer) {
+		this.listTopPlayer = listTopPlayer;
+	}
+
+	public List<Player> getListTopPlayer() {
+		return listTopPlayer;
+	}
+
+	public void setListTopPlayer(List<Player> listTopPlayer) {
+		this.listTopPlayer = listTopPlayer;
+	}
+
+}

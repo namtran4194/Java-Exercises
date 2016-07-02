@@ -1,0 +1,14 @@
+package adapters;
+
+import java.io.File;
+
+public class Test {
+
+	public static void main(String[] args) {
+		String path = System.getProperty("user.home");
+		path += ".ms/highscore.txt";
+		File file = new File(path);
+		System.out.println(path);
+	}
+
+}

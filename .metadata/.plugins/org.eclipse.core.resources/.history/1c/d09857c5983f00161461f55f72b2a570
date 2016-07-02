@@ -1,0 +1,15 @@
+package adapters;
+
+import java.io.File;
+
+public class Test {
+
+	public static void main(String[] args) {
+		String path = System.getProperty("user.home");
+		path += "\\.minesweeper";
+		File file = new File(path);
+		file.mkdirs();
+		System.out.println(path);
+	}
+
+}

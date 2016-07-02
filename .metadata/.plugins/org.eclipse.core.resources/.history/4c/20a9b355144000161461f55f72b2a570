@@ -1,0 +1,42 @@
+package graphics;
+
+import java.awt.BorderLayout;
+import java.awt.Container;
+import java.awt.Dimension;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
+
+public class TopPlayer extends JDialog {
+	private static final long serialVersionUID = 1L;
+
+	public static final int WIDTH = 500;
+	public static final int HEIGH = 30;
+	public static final int CANVAS_WIDTH = WIDTH;
+	public static final int CANVAS_HEIGH = HEIGH * 10;
+
+	/**
+	 * Create the dialog.
+	 */
+	public TopPlayer() {
+		Container container = getContentPane();
+		container.setLayout(new BorderLayout());
+
+		JButton reset = new JButton("Reset high score");
+		container.add(reset, BorderLayout.SOUTH);
+		setPreferredSize(new Dimension(CANVAS_WIDTH, CANVAS_HEIGH));
+		pack();
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		setLocationRelativeTo(null);
+		setTitle("High Score");
+		setVisible(true);
+	}
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		new TopPlayer();
+	}
+
+}

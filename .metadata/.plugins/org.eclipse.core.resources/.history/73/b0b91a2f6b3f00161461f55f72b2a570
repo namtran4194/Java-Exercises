@@ -1,0 +1,12 @@
+/**
+ * 
+ */
+package adapters;
+
+/**
+ * @author namtr
+ *
+ */
+public interface Demo {
+
+}
