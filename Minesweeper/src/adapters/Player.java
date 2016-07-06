@@ -1,5 +1,8 @@
 package adapters;
 
+/**
+ * Save name and score of a player
+ */
 public class Player {
 	private String name;
 	private int score;

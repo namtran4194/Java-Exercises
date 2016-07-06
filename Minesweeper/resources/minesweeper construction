@@ -1,5 +1,5 @@
-Bạn có thể tìm trên wiki với từ khoá "Minesweeper" để biết luật chơi.
-Minesweeper là trò chơi trí tuệ một người chơi. Mục tiêu là phải làm sạch bãi mìn hình vuông
+Bạn có thể tìm trên wiki với từ khoá "MineSweeper" để biết luật chơi.
+MineSweeper là trò chơi trí tuệ một người chơi. Mục tiêu là phải làm sạch bãi mìn hình vuông
 có chứa các quả mìn bị ẩn mà không mở dính quả mìn nào, với sự giúp đỡ từ các gợi ý về số
 xung quang ô vừa mở. Để mở một ô, click chuột trái vào ô đó. Nếu nghi ngờ một ô có mìn, click
 chuột phải vào ô đó để cắm/huỷ cờ. Nếu tất cả các ô không chứa mìn được mở thì bạn sẽ thắng, nếu

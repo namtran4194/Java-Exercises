@@ -1,7 +1,7 @@
 package adapters;
 
 /**
- * Use to save a cells' location in Minesweeper game
+ * Save a cells' location in Minesweeper game
  */
 public class Point {
 	private int rowSelected;
@@ -16,15 +16,7 @@ public class Point {
 		return rowSelected;
 	}
 
-	public void setRowSelected(int rowSelected) {
-		this.rowSelected = rowSelected;
-	}
-
 	public int getColSelected() {
 		return colSelected;
-	}
-
-	public void setColSelected(int colSelected) {
-		this.colSelected = colSelected;
 	}
 }

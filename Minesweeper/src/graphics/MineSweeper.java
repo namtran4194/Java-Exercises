@@ -11,6 +11,7 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
@@ -18,6 +19,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 
@@ -31,8 +34,11 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.KeyStroke;
 import javax.swing.Timer;
 
+import adapters.HighScores;
+import adapters.Player;
 import adapters.Point;
 
 /**
@@ -49,62 +55,65 @@ public class MineSweeper extends JFrame {
 	public int numRows = 8, numCols = 8;
 	public int cellSize = 60; // Cell width and height, in pixels
 	public int canvasWidth, canvasHeigh; // Game board width/heigh
-
 	// Name-constants for the game properties
-	public static final int CELLS_CHANGED = 1;
-	public static final int FLAGS_CHANGED = 2;
+	public static final int LEVEL_CHANGED = 0;
+	public static final int SCORE_CHANGED = 1;
+	public static final int CELLS_CHANGED = 2;
+	public static final int FLAGS_CHANGED = 3;
 	public static final String BEGINNER = "Beginner";
 	public static final String INTERMEDIATE = "Intermediate";
 	public static final String EXPERT = "Expert";
 	public static final String LEGEND = "Legend";
-
 	// Name-constants for UI control (sizes, colors and fonts)
 	public static final Color BGCOLOR_NOT_REVEALED = Color.GREEN; // Background
 	public static final Color BGCOLOR_REVEALED_MINE = Color.RED; // Background of mine's cell
 	public static final Color BGCOLOR_REVEALED = Color.DARK_GRAY; // Background of selected cell
 	public static final Color FGCOLOR_REVEALED = Color.LIGHT_GRAY; // Foreground of selected cell
-	public static final Font FONT_NUMBERS = new Font("Comic Sans MS", Font.TYPE1_FONT, 20);
-
+	public static final Font FONT_NUMBERS = new Font("Verdana", Font.TYPE1_FONT, 20);
+	public static final Font FONT_TOP_PANEL = new Font("Comic Sans MS", Font.ROMAN_BASELINE, 15);
+	public static final Font FONT_STATUS_BAR = new Font("Comic Sans MS", Font.TRUETYPE_FONT, 13);
+	public static final Font FONT_MENU = new Font("Verdana", Font.CENTER_BASELINE, 13);
 	public List<Point> listCells = new ArrayList<>();
 	// Buttons for user interaction
 	public JButton[][] btnCells;
 	// Number of mines in this game. Can vary to control the difficulty level.
 	public int numMines = 10;
 	public int cellsLeft, numFlags;
-	// Image
+	// Image of mine and flag
 	public Image minesImage, flagsImage;
 	// Location of mines. True if mine is present on this cell.
 	public boolean[][] mines;
 	// User can right-click to plant/remove a flag to mark a suspicious cell
 	public boolean[][] flags;
-
+	// Other attribute and component
 	public Container container;
 	public JPanel gamePanel;
 	public Timer timer;
+	public int score;
 	public int second;
-	public JLabel message, minesLb, flagsLb, timeLb;
+	public JLabel cellsLb, minesLb, flagsLb, timeLb, levelLb, scoreLb;
 	public JMenuItem beginner, intermediate, expert;
 
 	/**
-	  * Constructor to setup the game and the UI Components
-	  */
+	 * Constructor to setup the game and the UI Components
+	 */
 	public MineSweeper() {
 		container = getContentPane();
 		container.setLayout(new BorderLayout());
-		// Create status bar, menu bar
-		statusBar();
+		// Create status bar, menu bar...
 		createMenu();
-		// Get image
+		topPanel();
+		statusBar();
 		Image icon = null;
+		// Get image
 		try {
 			minesImage = ImageIO.read(ClassLoader.getSystemResourceAsStream("mines.png"));
 			flagsImage = ImageIO.read(ClassLoader.getSystemResource("flags.png"));
 			icon = ImageIO.read(getClass().getClassLoader().getResource("minesweeper.png"));
-		} catch (IOException e) {
-			notification(this, e.toString(), 0);
+		} catch (IllegalArgumentException | IOException e) {
+			notification(this, e.toString(), "Error", 0);
 			System.exit(1);
 		}
-
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setIconImage(icon);
 		setTitle("Minesweeper");
@@ -113,10 +122,17 @@ public class MineSweeper extends JFrame {
 		initGame();
 	}
 
-	// Initialize and re-initialize a new game
+	/**
+	 * Initialize and re-initialize a new game
+	 */
 	public void initGame() {
+		// Initialize top panel
+		if (cellsLeft != 0 && cellsLeft != numRows * numCols - numMines)
+			score = 0;
+		levelLb.setText("Difficulty: " + currentLevel);
+		scoreLb.setText("Your score: " + score);
 		// Menu bar, need to be located here
-		contextLevelsMenu();
+		contextLevelMenu();
 		// Construct ROWS*COLS JButtons and add to the content-pane
 		gamePanel = new JPanel(new GridLayout(numRows, numCols, 2, 2), true);
 		CellMouseListener listener = new CellMouseListener();
@@ -153,7 +169,6 @@ public class MineSweeper extends JFrame {
 				mines[row][col] = false; // clear all the mines
 			}
 		}
-
 		// Set the number of mines and the mines' location
 		cellsLeft = numRows * numCols - numMines;
 		numFlags = 0;
@@ -168,15 +183,23 @@ public class MineSweeper extends JFrame {
 			}
 		}
 		// Initialize status bar
-		message.setText("Cells remaining: " + cellsLeft);
+		cellsLb.setText("Cells remaining: " + cellsLeft);
 		minesLb.setText("Mines: " + numMines);
 		flagsLb.setText("Flags: " + numFlags);
-		second = 0;
 		timer.start();
 	}
 
-	// Refresh game when select Reset Game in menu
+	/**
+	 * Refresh the current game when select Reset Game in menu
+	 */
 	public void reset() {
+		// Initialize status bar
+		score = 0;
+		numFlags = 0;
+		cellsLeft = numRows * numCols - numMines;
+		scoreLb.setText("Your score: " + score);
+		cellsLb.setText("Cells remaining: " + cellsLeft);
+		flagsLb.setText("Flags: " + numFlags);
 		for (int row = 0; row < numRows; row++) {
 			for (int col = 0; col < numCols; col++) {
 				// Set all cells to un-revealed
@@ -191,103 +214,168 @@ public class MineSweeper extends JFrame {
 		}
 	}
 
+	/**
+	 * Create menu bar and the components
+	 */
 	public void createMenu() {
 		JMenuBar menuBar = new JMenuBar();
-		JMenu mFile, mOptions, mHelp, mLevels;
-		JMenuItem newGame, resetGame, exit;
-		JMenuItem construction, about, highScore;
-
+		JMenu mFile, mOptions, mHelp, mLevel;
+		JMenuItem newGame = null, resetGame = null, exit = null;
+		JMenuItem highScores = null;
+		JMenuItem instructions = null, about = null;
 		// File
 		mFile = new JMenu("File");
-		newGame = new JMenuItem("New Game");
-		resetGame = new JMenuItem("Reset Game");
-		exit = new JMenuItem("Exit");
-		mFile.add(newGame);
-		mFile.add(resetGame);
-		mFile.addSeparator();
-		mFile.add(exit);
+		mFile.setMnemonic(KeyEvent.VK_F);
+		mFile.setToolTipText("The file menu contain three item, such as new game, reset game and exit");
+		createMenuItem(mFile, newGame, "New Game", false, KeyEvent.VK_N);
+		createMenuItem(mFile, resetGame, "Reset Game", true, KeyEvent.VK_R);
+		createMenuItem(mFile, exit, "Exit", false, 0);
 
 		// Options
 		mOptions = new JMenu("Options");
-		mLevels = new JMenu("Levels");
-		highScore = new JMenuItem("High Score");
-		beginner = new JMenuItem();
-		intermediate = new JMenuItem();
-		expert = new JMenuItem();
-		mOptions.add(mLevels);
+		mOptions.setMnemonic(KeyEvent.VK_T);
+		mOptions.setToolTipText("The options menu contain two item: level to change game level and high scores to see top player");
+		mLevel = new JMenu("Level");
+		mLevel.setToolTipText("Change the difficulty of game");
+		mLevel.setMnemonic(KeyEvent.VK_L);
+		mOptions.add(mLevel);
 		mOptions.addSeparator();
-		mOptions.add(highScore);
-		mLevels.add(beginner);
-		mLevels.addSeparator();
-		mLevels.add(intermediate);
-		mLevels.addSeparator();
-		mLevels.add(expert);
-
+		createMenuItem(mOptions, highScores, "High Scores", false, KeyEvent.VK_O);
+		// Add the item to the level menu
+		beginner = new JMenuItem();
+		beginner.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_B, ActionEvent.CTRL_MASK));
+		mLevel.add(beginner);
+		mLevel.addSeparator();
+		intermediate = new JMenuItem();
+		intermediate.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, ActionEvent.CTRL_MASK));
+		mLevel.add(intermediate);
+		mLevel.addSeparator();
+		expert = new JMenuItem();
+		expert.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, ActionEvent.CTRL_MASK));
+		mLevel.add(expert);
 		// Help
 		mHelp = new JMenu("Help");
-		construction = new JMenuItem("Construction");
-		about = new JMenuItem("About");
-		mHelp.add(construction);
-		mHelp.addSeparator();
-		mHelp.add(about);
-
+		mHelp.setMnemonic(KeyEvent.VK_H);
+		mHelp.setToolTipText("Can see instructions and about of the game and the author");
+		createMenuItem(mHelp, instructions, "Instructions", true, 0);
+		createMenuItem(mHelp, about, "About", false, 0);
 		// Add to menu bar
 		menuBar.add(mFile);
 		menuBar.add(mOptions);
 		menuBar.add(mHelp);
 		setJMenuBar(menuBar);
-
 		// Add event listener
-		newGame.addActionListener(new MenuListener());
-		resetGame.addActionListener(new MenuListener());
-		exit.addActionListener(new MenuListener());
 		beginner.addActionListener(new MenuListener());
 		intermediate.addActionListener(new MenuListener());
 		expert.addActionListener(new MenuListener());
-		highScore.addActionListener(new MenuListener());
-		construction.addActionListener(new MenuListener());
-		about.addActionListener(new MenuListener());
+		// Set Font
+		mFile.setFont(FONT_MENU);
+		mOptions.setFont(FONT_MENU);
+		mHelp.setFont(FONT_MENU);
+		mLevel.setFont(FONT_MENU);
+		beginner.setFont(FONT_MENU);
+		intermediate.setFont(FONT_MENU);
+		expert.setFont(FONT_MENU);
 	}
 
-	// Change level in Menu when choose level, change attribute state
-	public void contextLevelsMenu() {
+	/**
+	 * Create the JMenuItem with text, font and event
+	 * 
+	 * @param menu the JMenu for JMenuItem
+	 * @param item the JMenuItem of JMenu
+	 * @param text the specified text of the JMenuItem
+	 * @param isSeparator if true, JMenu will add a separator
+	 */
+	public void createMenuItem(JMenu menu, JMenuItem item, String text, boolean isSeparator, int keyCode) {
+		if (text == null)
+			item = new JMenuItem();
+		else
+			item = new JMenuItem(text);
+		item.setFont(FONT_MENU);
+		item.addActionListener(new MenuListener());
+		menu.add(item);
+		if (isSeparator) {
+			menu.addSeparator();
+		}
+		if (keyCode == 0)
+			return;
+		item.setAccelerator(KeyStroke.getKeyStroke(keyCode, ActionEvent.CTRL_MASK));
+	}
+
+	/**
+	 * Change level state and attribute in Menu when choose level
+	 */
+	public void contextLevelMenu() {
 		beginner.setText("Beginner");
 		intermediate.setText("Intermediate");
 		expert.setText("Expert");
 		switch (currentLevel) {
-		case "Beginner":
-			beginner.setText("• Beginner");
-			cellSize = 60;
-			numRows = 8;
-			numCols = 8;
-			numMines = 10;
-			break;
-		case "Intermediate":
-			intermediate.setText("• Intermediate");
-			cellSize = 40;
-			numRows = 16;
-			numCols = 16;
-			numMines = 40;
-			break;
-		case "Expert":
-			expert.setText("• Expert");
-			cellSize = 40;
-			numRows = 16;
-			numCols = 30;
-			numMines = 99;
-			break;
-		default:
-			break;
+			case "Beginner":
+				beginner.setText("• Beginner");
+				cellSize = 60;
+				numRows = 8;
+				numCols = 8;
+				numMines = 10;
+				break;
+			case "Intermediate":
+				intermediate.setText("• Intermediate");
+				cellSize = 40;
+				numRows = 16;
+				numCols = 16;
+				numMines = 40;
+				break;
+			case "Expert":
+				expert.setText("• Expert");
+				cellSize = 40;
+				numRows = 16;
+				numCols = 30;
+				numMines = 99;
+				break;
+			default:
+				break;
 		}
 	}
 
-	// Status bar to show number of cells remaining, flags, mines, timer
+	/**
+	 * Show level and score
+	 */
+	public void topPanel() {
+		JPanel topPanel = new JPanel(new GridLayout(1, 2));
+		topPanel.setBackground(Color.WHITE);
+		levelLb = new JLabel();
+		scoreLb = new JLabel();
+		levelLb.setForeground(Color.BLUE);
+		scoreLb.setHorizontalAlignment(JLabel.RIGHT);
+		scoreLb.setForeground(Color.BLUE);
+		container.add(topPanel, BorderLayout.NORTH);
+		// set font
+		levelLb.setFont(FONT_TOP_PANEL);
+		scoreLb.setFont(FONT_TOP_PANEL);
+		topPanel.add(levelLb);
+		topPanel.add(scoreLb);
+	}
+
+	/**
+	 * Status bar to show number of cells remaining, flags, mines, timer
+	 */
 	public void statusBar() {
 		JPanel statusPanel = new JPanel(new GridLayout(1, 4));
-		message = new JLabel();
+		statusPanel.setBackground(Color.WHITE);
+		cellsLb = new JLabel();
 		minesLb = new JLabel();
 		flagsLb = new JLabel();
 		timeLb = new JLabel();
+		// Text color
+		cellsLb.setForeground(Color.RED);
+		minesLb.setForeground(Color.RED);
+		flagsLb.setForeground(Color.RED);
+		timeLb.setForeground(Color.RED);
+		// Set font
+		cellsLb.setFont(FONT_STATUS_BAR);
+		minesLb.setFont(FONT_STATUS_BAR);
+		flagsLb.setFont(FONT_STATUS_BAR);
+		timeLb.setFont(FONT_STATUS_BAR);
+		// Text orientation
 		minesLb.setHorizontalAlignment(JLabel.CENTER);
 		flagsLb.setHorizontalAlignment(JLabel.CENTER);
 		timeLb.setHorizontalAlignment(JLabel.RIGHT);
@@ -297,33 +385,43 @@ public class MineSweeper extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				second++;
-				timeLb.setText(mesTimer + second + "s");
+				timeLb.setText(mesTimer + second + "(s)");
 			}
 		});
 		// Add components to content-pane
-		statusPanel.add(message);
+		statusPanel.add(cellsLb);
 		statusPanel.add(minesLb);
 		statusPanel.add(flagsLb);
 		statusPanel.add(timeLb);
 		container.add(statusPanel, BorderLayout.SOUTH);
 	}
 
-	// Change the number of cells/flags in status bar
+	/**
+	 * Change the number of cells/flags in status bar
+	 */
 	public void setTextChanged(int type) {
 		switch (type) {
-		case CELLS_CHANGED:
-			message.setText("Cells remaining: " + cellsLeft);
-			break;
-		case FLAGS_CHANGED:
-			flagsLb.setText("Flags: " + numFlags);
-			break;
-		default:
-			break;
+			case LEVEL_CHANGED:
+				levelLb.setText("Level: " + currentLevel);
+				break;
+			case SCORE_CHANGED:
+				scoreLb.setText("Your score: " + score);
+				break;
+			case CELLS_CHANGED:
+				cellsLb.setText("Cells remaining: " + cellsLeft);
+				break;
+			case FLAGS_CHANGED:
+				flagsLb.setText("Flags: " + numFlags);
+				break;
+			default:
+				break;
 		}
 	}
 
-	// Get construction in file as string
-	public String getConstruction() {
+	/**
+	 * Get construction text in file as string
+	 */
+	public String getInstructions() {
 		String line, data = "";
 		InputStream in = ClassLoader.getSystemResourceAsStream("minesweeper construction");
 		try (BufferedReader reader = new BufferedReader(new InputStreamReader(in, "UTF-8"))) {
@@ -336,7 +434,9 @@ public class MineSweeper extends JFrame {
 		return data;
 	}
 
-	// Get about in file as string
+	/**
+	 * Get about text in file as string
+	 */
 	public String getAbout() {
 		String line, data = "";
 		InputStream in = ClassLoader.getSystemResourceAsStream("about");
@@ -350,7 +450,9 @@ public class MineSweeper extends JFrame {
 		return data;
 	}
 
-	// return the number of mines near the selected location
+	/**
+	 * return the number of mines near the selected location
+	 */
 	public int minesNear(int row, int col) {
 		int mines = 0;
 		// check mines in all directions
@@ -366,7 +468,9 @@ public class MineSweeper extends JFrame {
 		return mines;
 	}
 
-	// Open all the mines near blank cell
+	/**
+	 * Open all the mines near blank cell
+	 */
 	public void openCellsAround(int row, int col) {
 		int rowSelected, colSelected;
 		for (int i = -1; i <= 1; i++) {
@@ -379,7 +483,9 @@ public class MineSweeper extends JFrame {
 						btnCells[rowSelected][colSelected].setForeground(FGCOLOR_REVEALED);
 						btnCells[rowSelected][colSelected].setEnabled(false);
 						cellsLeft--;
-						setTextChanged(1);
+						score++;
+						setTextChanged(CELLS_CHANGED);
+						setTextChanged(SCORE_CHANGED);
 						if (minesNear(rowSelected, colSelected) == 0) {
 							listCells.add(new Point(rowSelected, colSelected));
 						} else {
@@ -392,6 +498,9 @@ public class MineSweeper extends JFrame {
 		processCellsWaiting();
 	}
 
+	/**
+	 * process the list cells that each cell is zero-cell
+	 */
 	public void processCellsWaiting() {
 		int rowSelected, colSelected;
 		Point point;
@@ -404,7 +513,9 @@ public class MineSweeper extends JFrame {
 		}
 	}
 
-	// return 1 if there's a mine at row,col or 0 if there isn't
+	/**
+	 * return 1 if there's a mine at row,col or 0 if there isn't
+	 */
 	public int mineAt(int row, int col) {
 		if (row >= 0 && row < numRows && col >= 0 && col < numCols && mines[row][col]) {
 			return 1;
@@ -413,8 +524,10 @@ public class MineSweeper extends JFrame {
 		}
 	}
 
-	// Show message dialog
-	public void notification(Component parent, Object message, int messageType) {
+	/**
+	 * Show message dialog
+	 */
+	public void notification(Component parent, Object message, String title, int messageType) {
 		String subString;
 		if (messageType == 3) {
 			int length = message.toString().length();
@@ -426,20 +539,82 @@ public class MineSweeper extends JFrame {
 				messageType = 1;
 			}
 		}
-		JOptionPane.showMessageDialog(parent, message, "Notification", messageType);
+		JOptionPane.showMessageDialog(parent, message, title, messageType);
 	}
 
 	/**
-	 * Handle event when mouse click
-	 * */
+	 * Add a player in file
+	 * 
+	 * @param player has high score
+	 */
+	public void addPlayerToTop(Player player) {
+		HighScores hScore = new HighScores();
+		List<Player> list = hScore.getListTopPlayer();
+		if (list.size() < 10) {
+			list.add(player);
+		} else {
+			list.remove(list.size() - 1);
+			list.add(player);
+		}
+		// Sort by decreasing
+		Collections.sort(list, new Comparator<Player>() {
+
+			@Override
+			public int compare(Player o1, Player o2) {
+				int score1 = o1.getScore();
+				int score2 = o2.getScore();
+				if (score1 > score2)
+					return -1;
+				else if (score1 == score2)
+					return 0;
+				else
+					return 1;
+			}
+
+		});
+		hScore.setListTopPlayer(list);
+		hScore.writeData();
+	}
+
+	/**
+	 * Check score whether it's high score or not
+	 */
+	public boolean isHighScore(int score) {
+		if (score == 0)
+			return false;
+		HighScores hScore = new HighScores();
+		List<Player> list = hScore.getListTopPlayer();
+		int size = list.size();
+		if (list.size() < 10) {
+			return true;
+		} else if (list.get(size - 1).getScore() < score) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Show input dialog and type name player
+	 */
+	public void enterName() {
+		String name = JOptionPane.showInputDialog(this, "Enter your name", "New high score",
+				JOptionPane.QUESTION_MESSAGE);
+		if (name != null) {
+			Player player = new Player(name, score);
+			addPlayerToTop(player);
+		}
+	}
+
+	/**
+	 * Handle event when mouse clicked
+	 * Determine the (row, col) of the JButton that triggered the event
+	 */
 	private class CellMouseListener extends MouseAdapter {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			// Determine the (row, col) of the JButton that triggered the event
 			int rowSelected = -1;
 			int colSelected = -1;
-
 			// Get the source object that fired the Event
 			JButton source = (JButton) e.getSource();
 			// Scan all rows and columns and match with the source object
@@ -453,14 +628,16 @@ public class MineSweeper extends JFrame {
 					}
 				}
 			}
-
-			// Left-click to reveal a cell; Right-click to plant/remove the flag.
+			// Left-click to reveal a cell; Right-click to plant/remove the flag
 			if (e.getButton() == MouseEvent.BUTTON1 && !flags[rowSelected][colSelected]) {// Left-button clicked
 				if (mines[rowSelected][colSelected]) {
 					timer.stop();
 					btnCells[rowSelected][colSelected].setBackground(BGCOLOR_REVEALED_MINE);
 					btnCells[rowSelected][colSelected].setIcon(new ImageIcon(minesImage));
-					notification(MineSweeper.this, "Game over!", 1);
+					notification(MineSweeper.this, "Game over!", "Oops", 0);
+					if (isHighScore(score)) {
+						enterName();
+					}
 					container.remove(gamePanel);
 					initGame();
 				} else {
@@ -468,7 +645,9 @@ public class MineSweeper extends JFrame {
 					btnCells[rowSelected][colSelected].setForeground(FGCOLOR_REVEALED);
 					btnCells[rowSelected][colSelected].setEnabled(false);
 					cellsLeft--;
+					score++;
 					setTextChanged(CELLS_CHANGED);
+					setTextChanged(SCORE_CHANGED);
 					if (minesNear(rowSelected, colSelected) != 0) {
 						btnCells[rowSelected][colSelected].setText(minesNear(rowSelected, colSelected) + "");
 					} else {
@@ -489,11 +668,10 @@ public class MineSweeper extends JFrame {
 						btnCells[rowSelected][colSelected].setIcon(null);
 					}
 				}
-
 			}
 			if (cellsLeft == 0) {
 				timer.stop();
-				notification(MineSweeper.this, "You win!", 1);
+				notification(MineSweeper.this, "You win!", "Congratulation", 1);
 				container.remove(gamePanel);
 				initGame();
 			}
@@ -502,49 +680,49 @@ public class MineSweeper extends JFrame {
 
 	/**
 	 * Handle event when menu clicked
-	 * */
+	 */
 	private class MenuListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			String itemClicked = e.getActionCommand();
 			switch (itemClicked) {
-			case "New Game":
-				container.remove(gamePanel);
-				initGame();
-				break;
-			case "Reset Game":
-				reset();
-				break;
-			case "Exit":
-				System.exit(1);
-				break;
-			case "High Score":
-				new TopPlayer();
-				break;
-			case "Beginner":
-				container.remove(gamePanel);
-				currentLevel = "Beginner";
-				initGame();
-				break;
-			case "Intermediate":
-				container.remove(gamePanel);
-				currentLevel = "Intermediate";
-				initGame();
-				break;
-			case "Expert":
-				container.remove(gamePanel);
-				currentLevel = "Expert";
-				initGame();
-				break;
-			case "Construction":
-				notification(MineSweeper.this, getConstruction(), 3);
-				break;
-			case "About":
-				notification(MineSweeper.this, getAbout(), 3);
-				break;
-			default:
-				break;
+				case "New Game":
+					container.remove(gamePanel);
+					initGame();
+					break;
+				case "Reset Game":
+					reset();
+					break;
+				case "Exit":
+					System.exit(1);
+					break;
+				case "High Scores":
+					new HSFrame();
+					break;
+				case "Beginner":
+					container.remove(gamePanel);
+					currentLevel = "Beginner";
+					initGame();
+					break;
+				case "Intermediate":
+					container.remove(gamePanel);
+					currentLevel = "Intermediate";
+					initGame();
+					break;
+				case "Expert":
+					container.remove(gamePanel);
+					currentLevel = "Expert";
+					initGame();
+					break;
+				case "Instructions":
+					notification(MineSweeper.this, getInstructions(), "Instructions", 3);
+					break;
+				case "About":
+					notification(MineSweeper.this, getAbout(), "About MineSweeper", 3);
+					break;
+				default:
+					break;
 			}
 		}
 
