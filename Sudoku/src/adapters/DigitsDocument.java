@@ -20,13 +20,11 @@ public class DigitsDocument extends PlainDocument {
 
 	@Override
 	public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
-		if (str == null) {
+		if (str == null)
 			return;
-		}
 		char c = str.charAt(0);
 		if (c >= '0' && c <= '9')
-			if (getLength() + str.length() <= limit) {
+			if (getLength() + str.length() <= limit)
 				super.insertString(offs, str, a);
-			}
 	}
 }

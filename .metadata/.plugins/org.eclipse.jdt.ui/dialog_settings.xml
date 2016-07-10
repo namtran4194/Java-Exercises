@@ -5,15 +5,21 @@
 	<item value="true" key="ProjectSelectionDialog.show_all"/>
 	<item value="224" key="org.eclipse.jdt.uiformatter_pagemodify_dialog.preferred_x"/>
 	<item value="0" key="org.eclipse.jdt.uiformatter_pagemodify_dialog.preferred_y"/>
-	<item value="2" key="org.eclipse.jdt.uiformatter_page.modify_dialog_tab_page.last_focus_index"/>
+	<item value="0" key="org.eclipse.jdt.uicleanup_pagemodify_dialog.preferred_y"/>
+	<item value="479" key="org.eclipse.jdt.uicleanup_pagemodify_dialog.preferred_x"/>
+	<item value="6" key="org.eclipse.jdt.uiformatter_page.modify_dialog_tab_page.last_focus_index"/>
 	<item value="false" key="delegateUpdating"/>
 	<item value="jdk1.8.0_92" key="org.eclipse.jdt.ui.last.selected.project.jre"/>
 	<item value="7" key="org.eclipse.jdt.uiformatter_page.white_space.java_view.option"/>
 	<item value="0" key="org.eclipse.jdt.uiformatter_page.white_space_tab_page.node"/>
 	<item value="1005" key="org.eclipse.jdt.uiformatter_pagemodify_dialog.preferred_width"/>
 	<item value="738" key="org.eclipse.jdt.uiformatter_pagemodify_dialog.preferred_height"/>
+	<item value="887" key="org.eclipse.jdt.uicleanup_pagemodify_dialog.preferred_width"/>
 	<item value="1" key="org.eclipse.jdt.uiformatter_page.line_wrapping_tab_page.last_category_index"/>
+	<item value="D:\Install" key="org.eclipse.jdt.ui.lastextjar"/>
 	<item value="12" key="org.eclipse.jdt.uiformatter_page.white_space.java_view.inner"/>
+	<item value="738" key="org.eclipse.jdt.uicleanup_pagemodify_dialog.preferred_height"/>
+	<item value="0" key="org.eclipse.jdt.uicleanup_pagemodify_dialog.last_focus"/>
 	<item value="1" key="org.eclipse.jdt.ui.last.selected.jre.kind2"/>
 	<section name="DialogBounds_GenerateConstructorUsingFieldsSelectionDialog">
 		<item value="519" key="DIALOG_WIDTH"/>

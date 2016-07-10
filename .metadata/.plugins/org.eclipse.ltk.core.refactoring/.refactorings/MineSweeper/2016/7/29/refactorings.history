@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename local variable &apos;size&apos; in &apos;graphics.MineSweeper.isHighScore(...)&apos; to &apos;numPlayer&apos;&#x0D;&#x0A;- Original project: &apos;MineSweeper&apos;&#x0D;&#x0A;- Original element: &apos;graphics.MineSweeper.isHighScore(int).size&apos;&#x0D;&#x0A;- Renamed element: &apos;size&apos;&#x0D;&#x0A;- Update references to refactored element" description="Rename local variable &apos;size&apos;" id="org.eclipse.jdt.ui.rename.local.variable" input="/src&lt;graphics{MineSweeper.java[MineSweeper~isHighScore~I@size!17564!17586!17568!17571!I!0!false" name="numPlayer" references="true" stamp="1468112172770" version="1.0"/>
+</session>

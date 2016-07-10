@@ -1,6 +1,8 @@
 package graphics;
 
 import java.awt.BorderLayout;
+import java.awt.Font;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.Panel;
@@ -12,17 +14,18 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 import adapters.HighScores;
 import adapters.Player;
 
 /**
- * Show High score
+ * Show High scores
  */
 public class HSFrame extends JOptionPane {
 	private static final long serialVersionUID = 1L;
 
-	public static final Insets INSETS = new Insets(0, 0, 0, 0);
+	private static final Font FONT_TEXT = new Font("Verdana", Font.ROMAN_BASELINE, 12);
 	public HighScores hScore = new HighScores();
 	public Panel root;
 	public JPanel dataPanel;
@@ -33,9 +36,42 @@ public class HSFrame extends JOptionPane {
 	public HSFrame() {
 		root = new Panel(new BorderLayout());
 		setTopPlayer();
+		JPanel btnPanel = new JPanel(new GridBagLayout());
 		JButton reset = new JButton("Reset High Scores");
-		reset.setMargin(INSETS);
-		reset.addActionListener(new ActionListener() {
+		btnPanel.add(reset);
+		reset.setMargin(new Insets(2, 2, 2, 2));
+		reset.setToolTipText("Reset high scores");
+		btnListener(reset);
+		root.add(btnPanel, BorderLayout.SOUTH);
+		showMessageDialog(this, root, "High Scores", JOptionPane.PLAIN_MESSAGE);
+	}
+
+	/**
+	 * Add the players to the frame
+	 */
+	private void setTopPlayer() {
+		dataPanel = new JPanel(new GridLayout(10, 1), true);
+		JLabel row;
+		String line;
+		List<Player> list = hScore.getListTopPlayer();
+		if (list.isEmpty()) {
+			line = "No data!";
+			row = new JLabel(line, SwingConstants.CENTER);
+			row.setFont(FONT_TEXT);
+			dataPanel.add(row);
+		} else
+			for (int i = 0; i < list.size(); i++) {
+				Player player = list.get(i);
+				line = (i + 1) + ". " + player.getName() + ": " + player.getScore();
+				row = new JLabel(line);
+				row.setFont(FONT_TEXT);
+				dataPanel.add(row);
+			}
+		root.add(dataPanel, BorderLayout.CENTER);
+	}
+
+	private void btnListener(JButton button) {
+		button.addActionListener(new ActionListener() {
 			String message = "Are you sure you want to reset high scores?";
 
 			@Override
@@ -49,30 +85,5 @@ public class HSFrame extends JOptionPane {
 				}
 			}
 		});
-		root.add(reset, BorderLayout.SOUTH);
-		showMessageDialog(this, root, "High Scores", JOptionPane.PLAIN_MESSAGE);
 	}
-
-	/**
-	 * Add the players to the frame
-	 */
-	public void setTopPlayer() {
-		dataPanel = new JPanel(new GridLayout(10, 1), true);
-		JLabel row;
-		String line;
-		List<Player> list = hScore.getListTopPlayer();
-		if (list.isEmpty()) {
-			line = "No data!";
-			row = new JLabel(line);
-			dataPanel.add(row);
-		} else
-			for (int i = 0; i < list.size(); i++) {
-				Player player = list.get(i);
-				line = (i + 1) + ". " + player.getName() + ": " + player.getScore();
-				row = new JLabel(line);
-				dataPanel.add(row);
-			}
-		root.add(dataPanel, BorderLayout.CENTER);
-	}
-
 }

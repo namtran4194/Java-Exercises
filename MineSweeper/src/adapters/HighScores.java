@@ -111,7 +111,7 @@ public class HighScores {
 	}
 
 	/**
-	 * Remove all Elements of list
+	 * Removes all of the elements from this list
 	 */
 	public void removeAll() {
 		listTopPlayer.clear();
