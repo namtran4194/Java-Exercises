@@ -1,0 +1,12 @@
+package adapters;
+
+/**
+ * The Board class models the ROWS-by-COLS game-board.
+ */
+public class Board {
+	Cell[][] cells;
+
+	public Board() {
+		cells = new Cell[0][0];
+	}
+}

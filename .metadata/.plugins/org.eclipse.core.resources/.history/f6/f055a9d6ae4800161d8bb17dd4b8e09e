@@ -1,0 +1,5 @@
+package adapters;
+
+public abstract class AIPlayer {
+
+}

@@ -1,0 +1,14 @@
+package junit;
+
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
+
+public class AddSubTest {
+	@Test
+	public void testAddPass() {
+		assertEquals("Error in add()", 3, Calculator.add(1, 2));
+		assertEquals("error in add()", -3, Calculator.add(-1, -2));
+		assertEquals("error in add()", 9, Calculator.add(9, 0));
+	}
+}

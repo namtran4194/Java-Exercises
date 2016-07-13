@@ -1,0 +1,28 @@
+package adapters;
+
+import java.awt.BasicStroke;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+
+/**
+ * The Cell class models each individual cell of the game board.
+ */
+public class Cell {
+	public Seed content;
+	int row, col;
+
+	public Cell(int row, int col) {
+		this.row = row;
+		this.col = col;
+		clear();
+	}
+
+	public void clear() {
+		content = Seed.EMPTY;
+	}
+
+	public void paint(Graphics g) {
+		Graphics2D g2d = (Graphics2D) g;
+		g2d.setStroke(new BasicStroke());
+	}
+}

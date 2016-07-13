@@ -1,11 +1,12 @@
 package security;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.AlgorithmParameterSpec;
+import java.util.Base64;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -13,8 +14,6 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
-
-import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 
 /**
  * Order for encrypt: <i>getBytes, encrypt, encode, toString</i>
@@ -45,17 +44,19 @@ public class EncrypterDecrypter {
 
 	/**
 	 * encrypt() inputs a string and returns an encrypted version of that String
+	 * @throws IOException 
+	 * @throws IllegalBlockSizeException 
 	 */
-	public String encrypt(String valueToEnc) {
+	public String encrypt(String valueToEnc){
 		String encryptedValue = null;
 		try {
 			// Encode the string into bytes using utf-8
-			byte[] utf8 = valueToEnc.getBytes("UTF8");
+			byte[] utf8 = valueToEnc.getBytes(StandardCharsets.UTF_8);
 			// Encrypt
 			byte[] encValue = eCipher.doFinal(utf8);
 			// Encode bytes to base64 to get a string
-			encryptedValue = Base64.encode(encValue);
-		} catch (BadPaddingException | UnsupportedEncodingException | IllegalBlockSizeException e) {
+			encryptedValue = Base64.getEncoder().encodeToString(encValue);
+		} catch (BadPaddingException | IllegalBlockSizeException e) {
 			System.out.println(e.toString() + ": 2");
 		}
 		return encryptedValue;
@@ -68,12 +69,12 @@ public class EncrypterDecrypter {
 		String decryptedValue = null;
 		try {
 			// Decode base64 to get bytes
-			byte[] decValue = Base64.decode(valueToDec);
+			byte[] decValue = Base64.getDecoder().decode(valueToDec);
 			// Decrypt
 			byte[] utf8 = dCipher.doFinal(decValue);
 			// Decode using utf-8
-			decryptedValue = new String(utf8, "UTF8");
-		} catch (IOException | IllegalBlockSizeException | BadPaddingException e) {
+			decryptedValue = new String(utf8, StandardCharsets.UTF_8);
+		} catch (IllegalBlockSizeException | BadPaddingException e) {
 			System.out.println(e.toString() + ": 3");
 		}
 		return decryptedValue;

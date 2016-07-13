@@ -1,0 +1,8 @@
+package adapters;
+
+/**
+ * The Cell class models each individual cell of the game board.
+ */
+public class Cell {
+
+}
