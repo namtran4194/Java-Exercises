@@ -29,7 +29,7 @@ import javax.swing.SwingConstants;
 import javax.swing.Timer;
 import javax.swing.border.Border;
 
-import adapters.DigitsDocument;
+import adapter.DigitsDocument;
 
 /**
  * The Sudoku game.
@@ -307,15 +307,16 @@ public class Sudoku extends JFrame {
 		menuBar.add(mHelp);
 		setJMenuBar(menuBar);
 		// Add event listener
-		newGame.addActionListener(new MenuListener());
-		resetGame.addActionListener(new MenuListener());
-		exit.addActionListener(new MenuListener());
-		beginner.addActionListener(new MenuListener());
-		intermediate.addActionListener(new MenuListener());
-		expert.addActionListener(new MenuListener());
-		legendary.addActionListener(new MenuListener());
-		instructions.addActionListener(new MenuListener());
-		about.addActionListener(new MenuListener());
+		ActionListener listener = new MenuListener();
+		newGame.addActionListener(listener);
+		resetGame.addActionListener(listener);
+		exit.addActionListener(listener);
+		beginner.addActionListener(listener);
+		intermediate.addActionListener(listener);
+		expert.addActionListener(listener);
+		legendary.addActionListener(listener);
+		instructions.addActionListener(listener);
+		about.addActionListener(listener);
 		// Set font
 		mFile.setFont(FONT_MENU);
 		mOptions.setFont(FONT_MENU);

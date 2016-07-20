@@ -3,8 +3,8 @@ package ai;
 import java.util.ArrayList;
 import java.util.List;
 
-import adapters.Board;
-import adapters.Seed;
+import adapter.Board;
+import adapter.Seed;
 
 /** AIPlayer using Minimax algorithm */
 public class AIPlayerTableLookup extends AIPlayer {

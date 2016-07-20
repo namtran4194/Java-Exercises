@@ -21,9 +21,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import adapters.Board;
-import adapters.Seed;
-import adapters.GameState;
+import adapter.Board;
+import adapter.GameState;
+import adapter.Seed;
 
 /**
  * Tic-Tac-Toe: Two-player Graphic version with better OO design.

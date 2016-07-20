@@ -32,11 +32,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
-import adapters.HighScores;
-import adapters.Player;
-import adapters.Point;
+import adapter.HighScores;
+import adapter.Player;
+import adapter.Point;
 
 /**
  * The Mine Sweeper Game.
@@ -258,9 +259,10 @@ public class MineSweeper extends JFrame {
 		menuBar.add(mHelp);
 		setJMenuBar(menuBar);
 		// Add event listener
-		beginner.addActionListener(new MenuListener());
-		intermediate.addActionListener(new MenuListener());
-		expert.addActionListener(new MenuListener());
+		ActionListener listener = new MenuListener();
+		beginner.addActionListener(listener);
+		intermediate.addActionListener(listener);
+		expert.addActionListener(listener);
 		// Set Font
 		mFile.setFont(FONT_MENU);
 		mOptions.setFont(FONT_MENU);
@@ -593,6 +595,8 @@ public class MineSweeper extends JFrame {
 						enterName();
 					container.remove(gamePanel);
 					initGame();
+					container.validate();
+					container.repaint();
 				} else {
 					btnCells[rowSelected][colSelected].setBackground(BGCOLOR_REVEALED);
 					btnCells[rowSelected][colSelected].setForeground(FGCOLOR_REVEALED);
@@ -624,6 +628,8 @@ public class MineSweeper extends JFrame {
 				notification(MineSweeper.this, "You win!", "Congratulation", 1);
 				container.remove(gamePanel);
 				initGame();
+				container.validate();
+				container.repaint();
 			}
 		}
 	}
@@ -682,7 +688,13 @@ public class MineSweeper extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		new MineSweeper();
+		SwingUtilities.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				new MineSweeper();
+			}
+		});
 	}
 
 }

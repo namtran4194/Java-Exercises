@@ -16,8 +16,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import adapters.HighScores;
-import adapters.Player;
+import adapter.HighScores;
+import adapter.Player;
 
 /**
  * Show High scores

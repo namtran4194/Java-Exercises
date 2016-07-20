@@ -1,8 +1,8 @@
 package ai;
 
-import adapters.Board;
-import adapters.Cell;
-import adapters.Seed;
+import adapter.Board;
+import adapter.Cell;
+import adapter.Seed;
 import ui.GameMain;
 
 public abstract class AIPlayer {
