@@ -1,8 +1,0 @@
-package networking;
-
-public class SimpleClient {
-	/**
-	 * A simple client used to connect to the server
-	 */
-	
-}

@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="java.nio.charset.StandardCharsets"/>
-<fullyQualifiedTypeName name="javax.crypto.SealedObject"/>
-<fullyQualifiedTypeName name="security.EncrypterDecrypter"/>
-<fullyQualifiedTypeName name="java.io.UnsupportedEncodingException"/>
 <fullyQualifiedTypeName name="javax.swing.Timer"/>
 <fullyQualifiedTypeName name="java.awt.Graphics2D"/>
 <fullyQualifiedTypeName name="adapters.Cell"/>
@@ -22,7 +18,6 @@
 <fullyQualifiedTypeName name="graphics.GameMain"/>
 <fullyQualifiedTypeName name="adapters.Board"/>
 <fullyQualifiedTypeName name="adapters.Seed"/>
-<fullyQualifiedTypeName name="java.lang.Integer"/>
 <fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="java.lang.reflect.Constructor"/>
@@ -57,7 +52,12 @@
 <fullyQualifiedTypeName name="javax.swing.JTextField"/>
 <fullyQualifiedTypeName name="java.lang.System"/>
 <fullyQualifiedTypeName name="networking.SimpleClient"/>
-<fullyQualifiedTypeName name="java.lang.String"/>
 <fullyQualifiedTypeName name="java.util.HashMap"/>
 <fullyQualifiedTypeName name="java.util.Set"/>
+<fullyQualifiedTypeName name="java.io.FileInputStream"/>
+<fullyQualifiedTypeName name="java.lang.String"/>
+<fullyQualifiedTypeName name="java.util.StringTokenizer"/>
+<fullyQualifiedTypeName name="java.lang.Integer"/>
+<fullyQualifiedTypeName name="namtran.hust.QKP"/>
+<fullyQualifiedTypeName name="enumeration.TrafficLightTest.TrafficLight"/>
 </qualifiedTypeNameHistroy>

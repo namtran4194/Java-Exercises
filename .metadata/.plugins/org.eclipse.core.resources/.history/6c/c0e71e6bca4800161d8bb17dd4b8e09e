@@ -1,7 +1,0 @@
-package graphics;
-
-import javax.swing.JFrame;
-
-public class UnresponsiveUI extends JFrame {
-	
-}
