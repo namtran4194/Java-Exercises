@@ -54,7 +54,7 @@ public class Primality {
 		if (n == 2) {
 			return true;
 		} else if (n == 1 || (n & 1) == 0) {
-			return true;
+			return false;
 		}
 		for (int i = 3; i * i <= n; i += 2) { // i <= Math.sqrt(n)
 			if (n % i == 0) {

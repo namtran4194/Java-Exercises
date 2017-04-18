@@ -8,24 +8,31 @@ public class PRIME1 {
 		Scanner sc = new Scanner(System.in);
 		int t = sc.nextInt();
 		while (t-- > 0) {
-			int num = sc.nextInt();
-			if (isPrime(num))
-				System.out.println("YES");
-			else {
-				System.out.println("NO");
-			}
+			int min = sc.nextInt();
+			int max = sc.nextInt();
+			generatePrime(min, max);
 		}
 		sc.close();
 	}
 
-	static boolean isPrime(int i) {
-		if (i == 2)
+	static void generatePrime(int min, int max) {
+		for (int i = min; i <= max; i++) {
+			if (isPrime(i)) {
+				System.out.println(i);
+			}
+		}
+		System.out.println();
+	}
+
+	static boolean isPrime(int n) {
+		if (n == 2)
 			return true;
-		else if (i == 1 || (i & 1) == 0)
+		if (n == 1 || (n & 1) == 0)
 			return false;
-		for (int k = 3; k * k <= i; k += 2)
-			if (i % k == 0)
+		for (int i = 3; i * i <= n; i += 2) {
+			if (n % i == 0)
 				return false;
+		}
 		return true;
 	}
 
