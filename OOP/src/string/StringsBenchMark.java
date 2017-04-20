@@ -37,14 +37,14 @@ public class StringsBenchMark {
 			sBufferReverse.append(str.charAt(pos));
 		}
 		elapsedTime = System.nanoTime() - beginTime;
-		System.out.println("Elapsed Time is " + elapsedTime / 1000 + " usec (Using StringBuilder to reverse)");
+		System.out.println("Elapsed Time is " + elapsedTime / 1000 + " usec (Using StringBuffer to reverse)");
 
 		// Reverse a String by creating a StringBuilder with the given String and invoke its reverse()
 		beginTime = System.nanoTime();
-		StringBuffer sBufferReverseMethod = new StringBuffer(str);
+		StringBuilder sBufferReverseMethod = new StringBuilder(str);
 		sBufferReverseMethod.reverse();
 		elapsedTime = System.nanoTime() - beginTime;
-		System.out.println("Elapsed Time is " + elapsedTime / 1000 + " usec (Using StringBuffer's reverse() method)");
+		System.out.println("Elapsed Time is " + elapsedTime / 1000 + " usec (Using StringBuilder's reverse() method)");
 
 		// Reverse a String via an empty StringBuilder by appending characters in the reverse order
 		beginTime = System.nanoTime();
@@ -60,7 +60,7 @@ public class StringsBenchMark {
 		StringBuffer sBuilderReverseMethod = new StringBuffer(str);
 		sBuilderReverseMethod.reverse();
 		elapsedTime = System.nanoTime() - beginTime;
-		System.out.println("Elapsed Time is " + elapsedTime / 1000 + " usec (Using StringBuidler's reverse() method)");
+		System.out.println("Elapsed Time is " + elapsedTime / 1000 + " usec (Using StringBuffer's reverse() method)");
 	}
 
 }
