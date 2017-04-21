@@ -2,7 +2,7 @@ package svmc1609;
 
 import java.util.Scanner;
 
-public class MirrorStrings_GoodCase {
+public class MirrorStrings_Good {
 
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);

@@ -4,11 +4,11 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class SuperFastIO {
-	
+
 	public static void main(String[] args) throws IOException {
 		System.out.println(readInt(System.in));
 	}
-	
+
 	public static int readInt(InputStream in) throws IOException {
 		int result = 0;
 		boolean dig = false;

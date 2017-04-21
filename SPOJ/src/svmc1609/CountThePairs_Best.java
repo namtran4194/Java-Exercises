@@ -1,18 +1,30 @@
 package svmc1609;
 
-import java.util.Scanner;
+import java.io.IOException;
+import java.io.InputStream;
 
 /** O(nlogn) */
-public class CountThePairs {
-	public static void main(String[] args) {
-		Scanner sc = new Scanner(System.in);
-		int n = sc.nextInt();
-		int k = sc.nextInt();
+public class CountThePairs_Best {
+	public static void main(String[] args) throws Exception {
+		/* Better */
+		// BufferedReader reader = new BufferedReader(new
+		// InputStreamReader(System.in));
+		// String[] line = reader.readLine().split(" ");
+		// int n = Integer.parseInt(line[0]);
+		// int k = Integer.parseInt(line[1]);
+		// int nums[] = new int[n];
+		// line = reader.readLine().split(" ");
+		// for (int i = 0; i < n; i++) {
+		// nums[i] = Integer.parseInt(line[i]);
+		// }
+
+		/* Best */
+		int n = readInt(System.in);
+		int k = readInt(System.in);
 		int nums[] = new int[n];
 		for (int i = 0; i < n; i++) {
-			nums[i] = sc.nextInt();
+			nums[i] = readInt(System.in);
 		}
-
 		heapSort(nums, n);
 
 		int count = 0;
@@ -24,7 +36,23 @@ public class CountThePairs {
 		}
 
 		System.out.println(count);
-		sc.close();
+	}
+
+	public static int readInt(InputStream in) throws IOException {
+		int result = 0;
+		boolean dig = false;
+
+		// read a byte (8bit) and transform it to number
+
+		for (int c = 0; (c = in.read()) != -1;) {
+			if (c >= '0' && c <= '9') {
+				dig = true;
+				result = result * 10 + c - '0';
+			} else if (dig)
+				break;
+		}
+
+		return result;
 	}
 
 	static void heapSort(int a[], int n) {
