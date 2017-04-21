@@ -28,20 +28,24 @@ public class HeapSort {
 
 	// Hoán vị nút cha thứ i phải lớn hơn nút con
 	static void heapify(int a[], int n, int i) {
-		int left = 2 * (i + 1) - 1;
-		int right = 2 * (i + 1);
-		int largest;
+		// Vị trí con trái, phải của i
+		int left = 2 * i + 1;
+		int right = 2 * i + 2;
+		int positionOfMax;
+		// Tìm vị trí của max(a[i], a[left])
 		if (left < n && a[left] > a[i]) {
-			largest = left;
+			positionOfMax = left;
 		} else {
-			largest = i;
+			positionOfMax = i;
 		}
-		if (right < n && a[right] > a[largest]) {
-			largest = right;
+		// Tìm vị trí của max(a[positionOfMax], a[right])
+		if (right < n && a[right] > a[positionOfMax]) {
+			positionOfMax = right;
 		}
-		if (i != largest) {
-			swap(a, i, largest);
-			heapify(a, n, largest);
+		// Nếu max ko phải ở vị trí i thì swap
+		if (i != positionOfMax) {
+			swap(a, i, positionOfMax);
+			heapify(a, n, positionOfMax);
 		}
 	}
 

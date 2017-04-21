@@ -1,29 +1,20 @@
 package daysofcode;
 
 public class BST<E extends Comparable<E>> {
-	E[] array;
 
 	// Tim value roi tra ve vi tri trong mang
 	// Neu ko tim duoc thi tra ve -1
-	int binarySearchRecursive(E value, int index, int left, int right) {
-		if (left <= right) {
-			int midIndex = left + ((right - left) / 2);
-			// value is found
-			if (value.equals(array[midIndex]))
-				index = midIndex;
-			else {
-				// search left
-				if (value.compareTo(array[midIndex]) < 0) {
-					right = midIndex - 1;
-				}
-				// search right
-				else {
-					left = midIndex + 1;
-				}
-				index = binarySearchRecursive(value, index, left, right);
-			}
+	int binarySearch(int arr[], int low, int high, int value) {
+		if (high >= low) {
+			int mid = low + (high - low) / 2;
+			if (value == arr[mid])
+				return mid;
+			if (value > arr[mid]) // search right
+				return binarySearch(arr, (mid + 1), high, value);
+			else // search right
+				return binarySearch(arr, low, (mid - 1), value);
 		}
-		return index;
+		return -1;
 	}
 
 	// Kiểm tra Binary Tree có là Binary Search Tree
