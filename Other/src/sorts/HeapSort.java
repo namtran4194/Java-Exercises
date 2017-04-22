@@ -12,17 +12,16 @@ public class HeapSort {
 	}
 
 	static void heapSort(int a[], int n) {
-		buildHeap(a, n);
-		for (int i = n - 1; i > 0; i--) {
-			swap(a, 0, i);
-			heapify(a, i, 0);
-		}
-	}
-
-	// Xây dựng Heap sao cho mọi nút cha luôn lớn hơn nút con trên cây
-	static void buildHeap(int a[], int n) {
+		// Build heap (// Xây dựng Heap sao cho mọi nút cha luôn lớn hơn nút con trên cây)
 		for (int i = n / 2 - 1; i >= 0; i--) {
 			heapify(a, n, i);
+		}
+		
+		for (int i = n - 1; i > 0; i--) {
+			// Move current root to end
+			swap(a, 0, i);
+			// Call max heapify on the reduced heap
+			heapify(a, i, 0);
 		}
 	}
 
@@ -31,21 +30,19 @@ public class HeapSort {
 		// Vị trí con trái, phải của i
 		int left = 2 * i + 1;
 		int right = 2 * i + 2;
-		int positionOfMax;
+		int largest = i;
 		// Tìm vị trí của max(a[i], a[left])
 		if (left < n && a[left] > a[i]) {
-			positionOfMax = left;
-		} else {
-			positionOfMax = i;
+			largest = left;
 		}
 		// Tìm vị trí của max(a[positionOfMax], a[right])
-		if (right < n && a[right] > a[positionOfMax]) {
-			positionOfMax = right;
+		if (right < n && a[right] > a[largest]) {
+			largest = right;
 		}
 		// Nếu max ko phải ở vị trí i thì swap
-		if (i != positionOfMax) {
-			swap(a, i, positionOfMax);
-			heapify(a, n, positionOfMax);
+		if (i != largest) {
+			swap(a, i, largest);
+			heapify(a, n, largest);
 		}
 	}
 

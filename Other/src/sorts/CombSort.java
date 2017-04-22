@@ -1,7 +1,7 @@
 package sorts;
 
 /**
- * Độ phức tạp thuật toán: trung bình O(nlog(n)) - xấu nhất: O(n)
+ * Độ phức tạp thuật toán: xấu nhất: O(n2) - trung bình: O(nlog(n)) - tốt nhất: O(n)
  */
 public class CombSort {
 	public static void main(String[] args) {
@@ -15,28 +15,28 @@ public class CombSort {
 	public static void sort(int[] a, int n) {
 		int gap = n;
 		float shrink = 1.3f;
-		boolean sorted = false;
+		boolean swapped = true;
 
-		while (gap > 1 || sorted == false) {
+		while (gap > 1 || swapped) {
 			// Update the gap value for a next comb
 			gap = (int) (gap / shrink);
-			if (gap < 1) {
+			if (gap < 1)
 				gap = 1;
-			}
-			int i = 0;
-			if (gap == 1) {
-				sorted = true;
-			}
+			
+			// Initialize swapped as false so that we can
+			// check if swap happened or not
+			swapped = false;
 
 			// A single " comb " over the input list
+			int i = 0;
 			while (i + gap < n) {
-				if (a[i] < a[i + gap]) {
+				if (a[i] > a[i + gap]) {
+					// swap
 					int temp = a[i];
 					a[i] = a[i + gap];
 					a[i + gap] = temp;
-					if (gap == 1) {
-						sorted = false;
-					}
+
+					swapped = true;
 				}
 				i++;
 			}
