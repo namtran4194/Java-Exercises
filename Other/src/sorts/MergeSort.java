@@ -11,42 +11,56 @@ public class MergeSort {
 		}
 	}
 
-	public static void sort(int array[], int start, int end) {
-		if (start < end) {
-			int middle = (start + end) / 2;
-			sort(array, start, middle);
-			sort(array, middle + 1, end);
-			merge(array, start, end);
+	public static void sort(int array[], int left, int right) {
+		if (left < right) {
+			int middle = (left + right) / 2;
+			// Sắp xếp nửa thứ nhất và thứ hai
+			sort(array, left, middle);
+			sort(array, middle + 1, right);
+			// Ghép hai nửa đã đc sắp xếp
+			merge(array, left, right);
 		}
 	}
 
-	static void merge(int array[], int start, int end) {
-		int[] temp = new int[end + 1];
-		int middle = (start + end) / 2;
-		int i, j;
-		int index = start;
+	static void merge(int array[], int left, int right) {
+		int mid = (left + right) / 2;
+		// Find sizes of two subarrays to be merged
+		int n1 = mid - left + 1;
+		int n2 = right - mid;
+		/* Create temp arrays */
+		int L[] = new int[n1];
+		int R[] = new int[n2];
+		/*Copy data to temp arrays*/
+		for (int i = 0; i < n1; i++)
+			L[i] = array[left + i];
+		for (int i = 0; i < n2; i++)
+			R[i] = array[mid + 1 + i];
 
-		i = start;
-		j = middle + 1;
-
-		while ((i <= middle) && (j <= end)) {
-			if (array[i] <= array[j]) {
-				temp[index++] = array[i++];
+		// Initial indexes of first and second subarrays
+		int i = 0, j = 0;
+		// Initial index of merged subarry array
+		int k = left;
+		while (i < n1 && j < n2) {
+			if (L[i] <= R[j]) {
+				array[k] = L[i];
+				i++;
 			} else {
-				temp[index++] = array[j++];
+				array[k] = R[j];
+				j++;
 			}
+			k++;
 		}
-
-		while (i <= middle) {
-			temp[index++] = array[i++];
+		/* Copy remaining elements of L[] if any */
+		while (i < n1) {
+			array[k] = L[i];
+			i++;
+			k++;
 		}
-
-		while (j <= end) {
-			temp[index++] = array[j++];
-		}
-
-		for (index = start; index <= end; index++) {
-			array[index] = temp[index];
+		/* Copy remaining elements of R[] if any */
+		while (j < n2) {
+			array[k] = R[j];
+			j++;
+			k++;
 		}
 	}
 

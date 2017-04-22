@@ -1,12 +1,12 @@
 package daysofcode;
 
-public class BST<E extends Comparable<E>> {
+public class BST {
 
 	// Tim value roi tra ve vi tri trong mang
 	// Neu ko tim duoc thi tra ve -1
 	int binarySearch(int arr[], int low, int high, int value) {
 		if (high >= low) {
-			int mid = low + (high - low) / 2;
+			int mid = (low + high) / 2;
 			if (value == arr[mid])
 				return mid;
 			if (value > arr[mid]) // search right

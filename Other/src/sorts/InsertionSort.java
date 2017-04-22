@@ -10,16 +10,16 @@ public class InsertionSort {
 		}
 	}
 
-	// Sắp xếp giảm dần
 	public static void sort(int[] a) {
 		for (int i = 1; i < a.length; i++) {
-			int index = i;
-			while (index > 0 && a[index - 1] < a[index]) {
-				int temp = a[index];
-				a[index] = a[index - 1];
-				a[index - 1] = temp;
-				index--;
+			int key = a[i]; // Phần tử đầu tiên chưa sắp xếp
+			int j = i - 1;
+			// Dịch tất cả phần tử sang phải để tạo vị trí cho "key"
+			while (j >= 0 && a[j] > key) {
+				a[j + 1] = a[j];
+				j--;
 			}
+			a[j + 1] = key; // Thêm phần tử chưa đc sắp xếp vào vị trí đúng
 		}
 	}
 }
