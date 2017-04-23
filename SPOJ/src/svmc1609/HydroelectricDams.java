@@ -2,6 +2,10 @@ package svmc1609;
 
 import java.util.Scanner;
 
+/**
+ * Tìm max bên trái và bên phải. Sau đó tìm giá trị nhỏ hơn trong 2 giá trị đó.
+ * Rồi tính thể tích nước tại block đó.
+ * */
 public class HydroelectricDams {
 
 	public static void main(String[] args) {
