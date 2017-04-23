@@ -7,7 +7,7 @@ package sorts;
  */
 public class BubbleSort {
 	public static void main(String[] args) {
-		int[] a = { 1, 5, 3, 13, 9, 31, 4 };
+		int[] a = { 1, 5, 3, 13, 9, 31, 2 };
 		sort(a);
 		for (int i = 0; i < a.length; i++) {
 			System.out.print(a[i] + " ");
@@ -20,9 +20,10 @@ public class BubbleSort {
 			boolean swapped = false;
 			for (int j = a.length - 1; j > i; j--) {
 				if (a[j] < a[j - 1]) {
-					int temp = a[j];
-					a[j] = a[j - 1];
-					a[j - 1] = temp;
+					// swap
+					a[j] = a[j] ^ a[j - 1];
+					a[j - 1] = a[j] ^ a[j - 1];
+					a[j] = a[j] ^ a[j - 1];
 					swapped = true;
 				}
 			}
