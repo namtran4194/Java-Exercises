@@ -16,7 +16,6 @@ public class CircularQueue<E> implements Queue<E> {
 			data[++tail % data.length] = item;
 		else
 			return null;
-		System.out.println("Tail: " + tail);
 		return item;
 	}
 
@@ -34,7 +33,6 @@ public class CircularQueue<E> implements Queue<E> {
 		E obj = peek();
 		if (obj != null)
 			front++;
-		System.out.println("Front: " + front);
 		return obj;
 	}
 

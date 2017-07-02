@@ -59,13 +59,10 @@ public class LinearQueue<E> implements Queue<E> {
 
 	private void grow() {
 		int newCapacity = data.length + incrementSeed;
-
-		Object[] oldData = new Object[data.length];
-		for (int i = 0; i < oldData.length; i++)
-			oldData[i] = data[i];
+		Object[] oldData = data;
 
 		data = new Object[newCapacity];
-		for (int i = 0; i < newCapacity; i++)
+		for (int i = 0; i < oldData.length; i++)
 			data[i] = oldData[i];
 	}
 
