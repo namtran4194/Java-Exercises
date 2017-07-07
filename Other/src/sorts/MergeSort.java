@@ -30,7 +30,7 @@ public class MergeSort {
 		/* Create temp arrays */
 		int L[] = new int[n1];
 		int R[] = new int[n2];
-		/*Copy data to temp arrays*/
+		/* Copy data to temp arrays */
 		for (int i = 0; i < n1; i++)
 			L[i] = array[left + i];
 		for (int i = 0; i < n2; i++)
@@ -51,17 +51,11 @@ public class MergeSort {
 			k++;
 		}
 		/* Copy remaining elements of L[] if any */
-		while (i < n1) {
-			array[k] = L[i];
-			i++;
-			k++;
-		}
+		while (i < n1)
+			array[k++] = L[i++];
 		/* Copy remaining elements of R[] if any */
-		while (j < n2) {
-			array[k] = R[j];
-			j++;
-			k++;
-		}
+		while (j < n2)
+			array[k++] = R[j++];
 	}
 
 }
