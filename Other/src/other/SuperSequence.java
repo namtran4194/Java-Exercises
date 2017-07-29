@@ -41,7 +41,6 @@ public class SuperSequence {
 
 		while (i < n)
 			scs[index++] = s1.charAt(i++);
-
 		while (j < m)
 			scs[index++] = s2.charAt(j++);
 
